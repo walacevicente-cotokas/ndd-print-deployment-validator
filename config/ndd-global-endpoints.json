@@ -82,14 +82,6 @@
       "protocol": "HTTPS",
       "required": false,
       "purpose": "Used by MPS to request that Host sends pending files."
-    },
-    {
-      "name": "Orbix Agent",
-      "host": "agent.nddorbix.com",
-      "port": 443,
-      "protocol": "HTTPS",
-      "required": false,
-      "purpose": "Sends application monitoring data such as server, services and logs to NDD Orbix."
     }
   ]
 }
