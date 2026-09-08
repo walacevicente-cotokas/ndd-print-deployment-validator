@@ -8,19 +8,35 @@ The goal is simple: allow a customer or technician to run one script on the targ
 
 ### Server readiness
 - Windows / Windows Server information
-- .NET Framework release
 - Installed RAM
 - Free disk space
+- **.NET Framework 3.5** status
+- **.NET Framework 4.8** release/status
 - Hostname and domain context
 
+Current default thresholds used by the validator:
+- RAM: 4 GB minimum
+- Free disk: 10 GB minimum
+- .NET Framework 3.5: required
+- .NET Framework 4.8 or later: required
+
+### Active Directory / LDAP
+When the server is domain joined, the validator attempts to verify:
+- Domain membership
+- Domain Controller discovery
+- DNS resolution of the Domain Controller
+- LDAP TCP 389 connectivity
+
+AD readiness is reported separately so an environment can be diagnosed without assuming every deployment uses the same directory scenario.
+
 ### Network and proxy
-- DNS configuration
-- Default gateway
 - WinHTTP proxy configuration
-- Internet connectivity
+- DNS resolution for NDD services
+- TCP 443 connectivity
+- HTTPS response
 
 ### NDD Global web services
-The validator tests DNS resolution and HTTPS/TCP 443 connectivity to the main NDD Global services used by NDD Print Host:
+The default Global profile tests:
 
 - `wsnpl.nddprint.com` — accounting files (NPL) and imports
 - `wsnsl.nddprint.com` — monitoring files (NSL)
@@ -32,76 +48,64 @@ The validator tests DNS resolution and HTTPS/TCP 443 connectivity to the main ND
 - `wshost.nddprint.com` — remote printer registration
 - `api-agents.nddprint.com` — MPS-managed Host configuration exchange
 - `hubs.nddprint.com` — requests pending file uploads from Host
-- `agent.nddorbix.com` — Orbix application/server/service/log monitoring
 
 > ICMP/ping is informational only. A failed ping does not automatically mean the endpoint is unavailable. DNS, TCP 443 and HTTPS are the relevant checks.
 
 ### Printer connectivity
-The user can optionally provide a printer IP address. The validator checks:
-
+The user can optionally provide a printer IP address. The validator currently checks:
 - ICMP reachability
 - TCP 80
 - TCP 443
 - TCP 9100
-- basic UDP 161/SNMP reachability indication
+- SNMP is currently shown as `NOT_VALIDATED` until a real SNMP GET is implemented
 
 ## Output
 
-The tool generates two files in the `output` folder:
+The tool generates:
 
-- `NDD-Validation-<computer>-<timestamp>.txt`
-- `NDD-Validation-<computer>-<timestamp>.json`
+- `output/NDD-Validation-<computer>-<timestamp>.txt`
+- `output/NDD-Validation-<computer>-<timestamp>.json`
 
-The TXT report is designed to be sent directly by a customer or attached to a support ticket. The JSON report is intended for structured analysis and future automation.
+The TXT report is designed to be sent by a customer or attached to a support ticket. The JSON report is intended for structured analysis and future automation.
 
 ## Usage
 
-Open PowerShell as Administrator and run:
+Recommended:
 
 ```powershell
-.\NDD-Deployment-Validator.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\NDD-Deployment-Validator.ps1"
 ```
 
-You can also provide a printer IP directly:
-
-```powershell
-.\NDD-Deployment-Validator.ps1 -PrinterIP 192.168.1.50
-```
-
-## Project structure
+Or run the launcher as a file:
 
 ```text
-ndd-print-deployment-validator/
-├── NDD-Deployment-Validator.ps1
-├── config/
-│   └── ndd-global-endpoints.json
-├── docs/
-│   └── validation-logic.md
-├── output/
-│   └── .gitkeep
-└── README.md
+Run-NDDValidation.bat
 ```
+
+Do not paste the contents of the `.bat` file into PowerShell. It is a CMD launcher.
 
 ## Current status
 
-**v0.1**
+**v0.2**
 
-Initial implementation includes:
-
+Implemented:
 - Server inventory
-- Proxy detection
+- RAM and free-disk readiness
+- .NET Framework 3.5 validation
+- .NET Framework 4.8 validation
+- WinHTTP proxy detection
+- AD / Domain Controller / LDAP 389 basic validation
 - NDD Global endpoint validation
 - Optional printer connectivity validation
 - TXT and JSON report generation
 
 Planned next steps:
-
-- Active Directory / LDAP readiness
+- Real SNMP GET validation
+- NDD Host/Releaser communication matrix
+- Additional AD/LDAP checks and configurable LDAP targets
 - SQL Server readiness
-- NDD Host/Releaser port matrix
-- More reliable SNMP validation
-- Vendor/device profiles
-- Comparison between previous and current validation reports
+- Better actionable remediation messages
+- Packaging / one-click customer experience
 
 ## Disclaimer
 
