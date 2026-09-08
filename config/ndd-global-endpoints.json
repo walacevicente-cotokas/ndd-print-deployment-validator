@@ -1,0 +1,95 @@
+{
+  "vendor": "NDD",
+  "product": "NDD Print",
+  "datacenter": "Global",
+  "endpoints": [
+    {
+      "name": "NPL",
+      "host": "wsnpl.nddprint.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": true,
+      "purpose": "Receives accounting files (NPL) and import files such as QTD, ALD, NUI and NCI."
+    },
+    {
+      "name": "NSL",
+      "host": "wsnsl.nddprint.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": true,
+      "purpose": "Receives monitoring files (NSL)."
+    },
+    {
+      "name": "NPA",
+      "host": "wsnpa.nddprint.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": true,
+      "purpose": "Receives event files (NPA)."
+    },
+    {
+      "name": "User Sync",
+      "host": "wsnsu.nddprint.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": true,
+      "purpose": "Synchronizes users, accounts and groups."
+    },
+    {
+      "name": "WS Control",
+      "host": "wscontrol.nddprint.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": true,
+      "purpose": "Synchronizes policy, quota and user credential caches."
+    },
+    {
+      "name": "Sync Host",
+      "host": "sync-host.nddprint.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": true,
+      "purpose": "Synchronizes Host caches and configurations."
+    },
+    {
+      "name": "NDD Print Mobile",
+      "host": "wsmobile.nddprint.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": false,
+      "purpose": "Used by NDD Print Mobile to query logged-user data such as quotas and print history."
+    },
+    {
+      "name": "WS Host",
+      "host": "wshost.nddprint.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": false,
+      "purpose": "Used to register remote printers in NDD Print Host."
+    },
+    {
+      "name": "API Agents",
+      "host": "api-agents.nddprint.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": false,
+      "purpose": "Used when NDD Print Host printers are administered from the NDD Print MPS interface."
+    },
+    {
+      "name": "Hubs",
+      "host": "hubs.nddprint.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": false,
+      "purpose": "Used by MPS to request that Host sends pending files."
+    },
+    {
+      "name": "Orbix Agent",
+      "host": "agent.nddorbix.com",
+      "port": 443,
+      "protocol": "HTTPS",
+      "required": false,
+      "purpose": "Sends application monitoring data such as server, services and logs to NDD Orbix."
+    }
+  ]
+}
